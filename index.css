@@ -3,3 +3,26 @@
     width: 100%;
     height: 100%;
 }
+.cover {
+    background-color: white;
+    z-index: 2;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0%;
+}
+.open {
+    animation: open 5s;
+}
+.close {
+    animation: open 5s reverse;
+}
+@keyframes open {
+    0% {
+        opacity: 0%;
+    }
+
+    100% {
+        opacity: 100%;
+    }
+}

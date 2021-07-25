@@ -1,3 +1,6 @@
+var overlay = document.querySelector('.overlay__scene');
+    var label = document.querySelector('.overlay__label-content');
+
 function makeid() {
   var result           = '';
   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -16,6 +19,7 @@ colors = ["#423b0b","#b5fed9","#25283d","#dc851f","#20a4f3","#ee6352","#fac05e",
 
 class GameManager {
     constructor() {
+      this.started = false;
       this.name = "greatestgauntlet"
       this.peer = new Peer(makeid());
       this.id = this.peer.id;
@@ -33,6 +37,18 @@ class GameManager {
           }));
     }
   }
+
+function transition() {
+  console.log('transition');
+  $('.cover').toggleClass('open', true);
+
+}
+async function transitionback() {
+  $('.cover').toggleClass('open', false);
+  $('.cover').toggleClass('close', true);
+  await sleep(3000);
+  $('.cover').toggleClass('close', false);
+}
 class Player {
     constructor(dataConnection, name) {
         this.dataConnection = dataConnection;
@@ -50,6 +66,8 @@ async function gameloop() {
     await game.loadgame('start');
 
     await execute(game);
+    transition();
+
 
 }
 gameloop();

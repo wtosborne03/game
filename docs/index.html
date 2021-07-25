@@ -75,7 +75,10 @@
                         }
                     });
 
-                    
+               conn.on('close', function() {
+              alert('Game Disconnected');
+              
+            });
                 conn.send({
                     cm: 'name',
                     name : $('#name').val()
@@ -83,6 +86,7 @@
                 });
                 conn.on('error', function() {
                         $.toast('Could Not Find Game');
+                        window.location.href = "https://wtosborne03.github.io/game/";
                     });
             }
         });

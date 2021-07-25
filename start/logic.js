@@ -36,7 +36,11 @@ async function execute(game) {
                   if (game.players.length < 2) {
                     p.dataConnection.send({
                       cm: 'empty'
-                    })
+                      
+                    });
+                    
+                  } else {
+                    game.started = true;
                   }
                 }
               });
@@ -79,5 +83,16 @@ async function execute(game) {
             game.players.push(p);
             
         }
+    });
+    while (!game.started) {
+      await sleep(500);
+    }
+    game.players.forEach(p => {
+      $.get( "start/screens/empty.html", function( data ) {
+        p.dataConnection.send({
+          cm: "contentChange",
+          content: data
+        });
+      });
     });
 }
