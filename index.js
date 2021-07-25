@@ -19,6 +19,8 @@ colors = ["#423b0b","#b5fed9","#25283d","#dc851f","#20a4f3","#ee6352","#fac05e",
 
 class GameManager {
     constructor() {
+      this.round = 0;
+      this.maxround = 20;
       this.started = false;
       this.name = "greatestgauntlet"
       this.peer = new Peer(makeid());
@@ -61,6 +63,34 @@ class Player {
         this.index;
     }
 }
+function timer(time) {
+  d3.select(".countdown").transition()
+    .style("font-size", "6rem").duration(500);
+    var countdownNumberEl = document.getElementById('countdown-number');
+    var countdown = time;
+    
+    countdownNumberEl.textContent = countdown;
+    
+    mv = setInterval(function() {
+      countdown = --countdown;
+      if (countdown == 0) {
+        d3.select(".countdown").transition()
+    .style("font-size", "0rem").duration(500);
+        mv.clearInterval();
+      }
+    
+      countdownNumberEl.textContent = countdown;
+    }, 1000);
+}
+function round(state) {
+  if (state) {
+    d3.select(".round").transition()
+    .style("left", "-15px").duration(500);
+  } else {
+    d3.select(".round").transition()
+    .style("left", "-305px").duration(500);
+  }
+}
 async function gameloop() {
     game = new GameManager();
     await game.loadgame('start');
@@ -71,7 +101,9 @@ async function gameloop() {
     await game.loadgame('trivia');
     await sleep(2000);
     transitionback();
+    
     await sleep(500);
+    round(true);
     await execute(game);
 
 }

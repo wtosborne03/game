@@ -15,9 +15,25 @@ font-family: 'Rubik Mono One', sans-serif; }
     grid-area: 1 / 2 / 2 / 4;
     font-family: 'Rubik Mono One', sans-serif;
  }
- .player-area { 
-     grid-area: 3 / 2 / 6 / 6;
- }
+ .ans1 { grid-area: 4 / 2 / 5 / 3; }
+ .ans2 { grid-area: 5 / 2 / 6 / 3; }
+ .ans3 { grid-area: 4 / 4 / 5 / 5; }
+ .ans4 { grid-area: 5 / 4 / 6 / 5; }
+ .question { grid-area: 3 / 2 / 4 / 5; }
+
+.answer {
+    opacity: 0%;
+    font-size: 0rem;
+    background-color: white;
+    border-radius: 15px;
+}
+.question {
+    opacity: 0%;
+    font-size: 0rem;
+    background-color: white;
+    border-radius: 15px;
+}
+
  .player-icon {
     background-color: white;
     width: 200px;

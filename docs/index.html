@@ -48,6 +48,10 @@
         </div>
     </body>
     <script>
+        if (localStorage.getItem('name') != null) {
+            $('#name').val(localStorage.getItem('name'));
+            $('#code').val(localStorage.getItem('code'));
+        }
         peer = new Peer();
         dc = null;
         $('#joinbutton').click(function() {
@@ -58,6 +62,10 @@
             } else {
                 let cid = $('#code').val();
                 cid = cid.toUpperCase();
+
+                localStorage.setItem('name', $('#name').val());
+                localStorage.setItem('code', cid);
+
                 console.log('connecting to ' + cid);
                 var conn = peer.connect(cid);
                 conn.on('open', function() {

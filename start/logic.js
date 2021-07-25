@@ -10,6 +10,20 @@ function checkvip(game) {
 }
 
 async function execute(game) {
+    var music = new Howl({
+      src: ['start/media/music.mp3'],
+      autoplay: true,
+      loop: true,
+
+    });
+    var join_sound = new Howl({
+      src: ['sfx/gen/Fanfares/sfx_sounds_fanfare1.wav'],
+    });
+    var bounce_sound = new Howl({
+      src: ['sfx/gen/Buttons/sfx_sounds_button7.wav'],
+    });
+    music.play();
+
     $('#rc').text(game.id);
     game.peer.on('connection', function(conn) { 
         if (game.players.length < game.maxplayers) {
@@ -17,6 +31,7 @@ async function execute(game) {
             p.tag = $('.player-area').append('<div class="player-icon" id="i' + p.id + '"><div class="player-text" id="t' + p.id + '"></div></div>');
             p.tag = $('#i' + p.id)
             p.index = game.players.length;
+            join_sound.play();
             p.dataConnection.on('data', function(data) {
               console.log(data.cm);
                 if (data.cm == 'name') {
@@ -31,6 +46,7 @@ async function execute(game) {
                   
                 } else if (data.cm == 'bounce') {
                   console.log('bounce');
+                  bounce_sound.play();
                   p.tag.animate({opacity: '25%'}, function(){ p.tag.animate({opacity: '100%'})});
                 } else if (data.cm == 'start') {
                   if (game.players.length < 2) {
@@ -87,6 +103,7 @@ async function execute(game) {
     while (!game.started) {
       await sleep(500);
     }
+    music.stop();
     game.players.forEach(p => {
       $.get( "start/screens/empty.html", function( data ) {
         p.dataConnection.send({
