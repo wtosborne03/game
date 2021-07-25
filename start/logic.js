@@ -16,8 +16,9 @@ async function execute(game) {
             p = new Player(conn, '');
             p.tag = $('.player-area').append('<div class="player-icon" id="i' + p.id + '"><div class="player-text" id="t' + p.id + '"></div></div>');
             p.tag = $('#i' + p.id)
-            
+            p.index = game.players.length;
             p.dataConnection.on('data', function(data) {
+              console.log(data.cm);
                 if (data.cm == 'name') {
                   p.name = data.name;
                   $('#t' + p.id).text(p.name);
@@ -31,6 +32,12 @@ async function execute(game) {
                 } else if (data.cm == 'bounce') {
                   console.log('bounce');
                   p.tag.animate({opacity: '25%'}, function(){ p.tag.animate({opacity: '100%'})});
+                } else if (data.cm == 'start') {
+                  if (game.players.length < 2) {
+                    p.dataConnection.send({
+                      cm: 'empty'
+                    })
+                  }
                 }
               });
             p.dataConnection.on('open', function() {
@@ -47,10 +54,23 @@ async function execute(game) {
             });
             p.dataConnection.on('close', function() {
               p.tag.remove();
-              game.players.filter(item => item !== p);
+              game.players.splice(p.index, 1);
               console.log('Player Disconnected');
-              checkvip();
+              if (game.players.length > 0) {
+                checkvip();
+              }
             });
+            
+            p.dataConnection.peerConnection.oniceconnectionstatechange = function() {
+              if(p.dataConnection.peerConnection.iceConnectionState == 'disconnected') {
+                p.tag.remove();
+                game.players.splice(p.index, 1);
+                console.log('Player Disconnected');
+                if (game.players.length > 0) {
+                  checkvip();
+                }
+              }
+          }
             p.dataConnection.on('error', function(e) {
              
               console.log(e);

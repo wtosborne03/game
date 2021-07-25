@@ -6,19 +6,39 @@
         <input type="range" class="form-range" min="3" max="20" id="rounds">
       </div>
       <div class="mb-3">
-        <label for="code" class="form-label">Code</label>
-        <input type="text" class="form-control" id="code" maxlength="4">
+        <label class="form-label">Games</label>
+        <ul class="list-group">
+            <li class="list-group-item"><input class="form-check-input" type="checkbox" id='b-trivia' checked>Trivia</li>
+          </ul>
       </div>
 
-    <button type="button" id="joinbutton" class="btn btn-primary">Join</button>
+    <button type="button" id="startbutton" class="btn btn-primary">Start Game</button>
 </div>
 <div id="clicklayer" style="width: 100%; height: 100%;">
 
 </div>
 <script>
     $('#clicklayer').click(function() {
-        dc.send({
+            dc.send({
                     cm: 'bounce'
-                });
+                });    
+    });
+    $('#startbutton').click(function() {
+        if (!$('#b-trivia').is(':checked')) {
+            $.toast('You must select one or more games');
+        } else {
+            dc.send({
+                    cm: 'start',
+                    games: {
+                        trivia: $('#b-trivia').is(':checked')
+                    }
+                }); 
+        }
+        
+    });
+    dc.on('data', function(data) {
+        if (data.cm == "empty") {
+            $.toast('Not enough players');
+        }
     });
 </script>

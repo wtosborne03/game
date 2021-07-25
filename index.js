@@ -42,7 +42,7 @@ class Player {
         this.color = '#2f2f2f';
         this.id = this.dataConnection.peer;
         this.vip = false;
-        
+        this.index;
     }
 }
 async function gameloop() {
