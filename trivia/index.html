@@ -1,0 +1,27 @@
+
+<script src="trivia/logic.js"></script>
+<link rel="stylesheet" href="trivia/style.css">
+<style>
+    #myVideo {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        min-width: 100%;
+        min-height: 100%;
+        z-index: -3;
+    }
+</style>
+<video autoplay muted loop id="myVideo">
+    <source src="trivia/media/background.mp4" type="video/mp4">
+  </video>
+<div class="parent">
+    <div class="title">
+        <span style="font-size: 72px;">Trivia</span><br/>
+    </div>
+    <div class="roomcode" style="right: 50px;">
+        <span style="font-size: 45px; text-align: center;">Round:<b style="font-size: 60px;" id="rc">1</b></span>
+    </div>
+    <div class="player-area">
+        
+    </div>
+</div>

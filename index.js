@@ -67,7 +67,12 @@ async function gameloop() {
 
     await execute(game);
     transition();
-
+    await sleep(500);
+    await game.loadgame('trivia');
+    await sleep(2000);
+    transitionback();
+    await sleep(500);
+    await execute(game);
 
 }
 gameloop();

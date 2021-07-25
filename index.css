@@ -12,10 +12,12 @@
     opacity: 0%;
 }
 .open {
-    animation: open 5s;
+    animation: open 0.5s;
+    animation-fill-mode: forwards;
 }
 .close {
-    animation: open 5s reverse;
+    animation: open 0.5s reverse;
+    animation-fill-mode: forwards;
 }
 @keyframes open {
     0% {
