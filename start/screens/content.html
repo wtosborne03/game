@@ -1,0 +1,10 @@
+<h2>Waiting for other players...</h2>
+<div id="clicklayer" style="width: 100%; height: 100%;">
+</div>
+<script>
+    $('#clicklayer').click(function() {
+        dc.send({
+                    cm: 'bounce'
+                });
+    });
+</script>
