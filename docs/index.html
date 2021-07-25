@@ -77,7 +77,7 @@
 
                conn.on('close', function() {
               alert('Game Disconnected');
-              
+              location.reload();
             });
                 conn.send({
                     cm: 'name',
@@ -85,8 +85,8 @@
                 });
                 });
                 conn.on('error', function() {
-                        $.toast('Could Not Find Game');
-                        window.location.href = "https://wtosborne03.github.io/game/";
+                    alert('Game Disconnected');
+              location.reload();
                     });
             }
         });
