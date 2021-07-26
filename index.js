@@ -1,6 +1,28 @@
 var overlay = document.querySelector('.overlay__scene');
     var label = document.querySelector('.overlay__label-content');
 
+  function shuffle(array) {
+      var currentIndex = array.length,  randomIndex;
+    
+      // While there remain elements to shuffle...
+      while (0 !== currentIndex) {
+    
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+    
+        // And swap it with the current element.
+        [array[currentIndex], array[randomIndex]] = [
+          array[randomIndex], array[currentIndex]];
+      }
+    
+      return array;
+    }
+
+    function getRandom(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
 function makeid() {
   var result           = '';
   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -15,7 +37,8 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-colors = ["#423b0b","#b5fed9","#25283d","#dc851f","#20a4f3","#ee6352","#fac05e","#f79d84","#b08ea2","#368f8b"];
+colors = ["#b2abeb","#b5fed9","#25283d","#dc851f","#20a4f3","#ee6352","#fac05e","#f79d84","#b08ea2","#368f8b"];
+
 
 class GameManager {
     constructor() {
@@ -56,6 +79,7 @@ class Player {
         this.dataConnection = dataConnection;
         this.name = name;
         this.tag;
+        this.connected = true;
         this.points = 0;
         this.color = '#2f2f2f';
         this.id = this.dataConnection.peer;
@@ -76,11 +100,16 @@ function timer(time) {
       if (countdown == 0) {
         d3.select(".countdown").transition()
     .style("font-size", "0rem").duration(500);
-        mv.clearInterval();
+        
+        clearInterval(mv);
       }
     
       countdownNumberEl.textContent = countdown;
     }, 1000);
+}
+function killtimer(time) {
+  d3.select(".countdown").transition()
+    .style("font-size", "0rem").duration(500);
 }
 function round(state) {
   if (state) {
@@ -88,7 +117,7 @@ function round(state) {
     .style("left", "-15px").duration(500);
   } else {
     d3.select(".round").transition()
-    .style("left", "-305px").duration(500);
+    .style("left", "-805px").duration(500);
   }
 }
 async function gameloop() {
@@ -105,6 +134,15 @@ async function gameloop() {
     await sleep(500);
     round(true);
     await execute(game);
+    while (game.started) {
+      transition();
+      await sleep(500);
+      await game.loadgame('trivia');
+      await sleep(2000);
+      transitionback();
+      await sleep(500);
+      await execute(game);
+    }
 
 }
 gameloop();

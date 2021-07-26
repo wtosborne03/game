@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Otomanopee+One&display=swap');
 html, body {
     width: 100%;
     height: 100%;
@@ -11,9 +13,13 @@ html, body {
 .cover {
     background-color: white;
     z-index: 2;
-    position: absolute;
-    width: 100%;
-    height: 100%;
+    margin: 0px auto;
+    padding: 0px;
+    top: -50px;
+    left: -50px;
+    position: fixed;
+    width: 150%;
+    height: 150%;
     opacity: 0%;
 }
 .open {
@@ -57,7 +63,7 @@ html, body {
   height: 10%;
   position: absolute;
   top: 35px;
-  left: -305px;
+  left: -805px;
   background-color: white;
   border-radius: 15px;
   padding: 25px;

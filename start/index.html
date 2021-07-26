@@ -15,9 +15,13 @@
     <source src="start/media/background.mp4" type="video/mp4">
   </video>
 <div class="parent">
+    <div id="qrcode"></div>
+    <script type="text/javascript">
+    new QRCode(document.getElementById("qrcode"), "https://wtosborne03.github.io/game/");
+    </script>
     <div class="title">
-        <span style="font-size: 72px;">Greatest Gauntlet</span><br/>
-        <span style="font-size: 30px;">Join at game.net</span>
+        <span style="font-size: 72px;">John's Jangout</span><br/>
+        <span style="font-size: 30px;">Join at wtosborne03.github.io/game/</span>
     </div>
     <div class="roomcode" style="right: 50px;">
         <span style="font-size: 45px; text-align: center;">Code:<br/><b style="font-size: 60px;" id="rc">ZPXC</b></span>

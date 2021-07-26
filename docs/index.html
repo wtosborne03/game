@@ -26,7 +26,7 @@
     </style>
     <body>
         <div class="bar">
-            <nav class="navbar navbar-light bg-light" style='padding: 5px;'>
+            <nav id="bar" class="navbar" style='padding: 5px;'>
                 <span class="navbar-brand mb-0 h1" id ="nickname"></span>
                 <span class="navbar-brand mb-0 h1" id ="points"></span>
               </nav>
@@ -79,7 +79,9 @@
                         else if (data.cm == "headerChange") {
                             $('#nickname').text(data.name);
                             $('#points').text('Pts: ' + data.points);
-                            $('.navbar').css('background-color', data.color);
+                          
+                            $('#bar').css('background-color', data.color);
+                           
                         }
                     });
 

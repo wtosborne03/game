@@ -8,6 +8,9 @@ function checkvip(game) {
     });
   });
 }
+function checkColors() {
+
+}
 
 async function execute(game) {
     var music = new Howl({
@@ -28,7 +31,9 @@ async function execute(game) {
     game.peer.on('connection', function(conn) { 
         if (game.players.length < game.maxplayers) {
             p = new Player(conn, '');
-            p.tag = $('.player-area').append('<div class="player-icon" id="i' + p.id + '"><div class="player-text" id="t' + p.id + '"></div></div>');
+            p.color = colors[0];
+            colors.splice(0, 1);
+            p.tag = $('.player-area').append('<div class="player-icon" id="i' + p.id + '" style="background-color: ' + p.color + '"><div class="player-text" id="t' + p.id + '"></div><div class="eye"></div><div class="eye"></div></div>');
             p.tag = $('#i' + p.id)
             p.index = game.players.length;
             join_sound.play();
@@ -36,6 +41,7 @@ async function execute(game) {
               console.log(data.cm);
                 if (data.cm == 'name') {
                   p.name = data.name;
+                  
                   $('#t' + p.id).text(p.name);
                   p.dataConnection.send({
                     cm: 'headerChange',
@@ -49,7 +55,7 @@ async function execute(game) {
                   bounce_sound.play();
                   p.tag.animate({opacity: '25%'}, function(){ p.tag.animate({opacity: '100%'})});
                 } else if (data.cm == 'start') {
-                  if (game.players.length < 2) {
+                  if (game.players.length < 1) {
                     p.dataConnection.send({
                       cm: 'empty'
                       
@@ -74,8 +80,10 @@ async function execute(game) {
             });
             p.dataConnection.on('close', function() {
               p.tag.remove();
+              colors.push(p.color);
               game.players.splice(p.index, 1);
               console.log('Player Disconnected');
+              p = undefined;
               if (game.players.length > 0) {
                 checkvip();
               }
@@ -84,8 +92,10 @@ async function execute(game) {
             p.dataConnection.peerConnection.oniceconnectionstatechange = function() {
               if(p.dataConnection.peerConnection.iceConnectionState == 'disconnected') {
                 p.tag.remove();
+                colors.push(p.color);
                 game.players.splice(p.index, 1);
                 console.log('Player Disconnected');
+                p = undefined;
                 if (game.players.length > 0) {
                   checkvip();
                 }
