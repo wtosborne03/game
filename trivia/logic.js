@@ -1,8 +1,9 @@
 async function ans(data) {
   if (data.cm == 'answer') {
+    p = this;
     p.answer = data.answer;
     answern++;
-    console.log('a: ' + answern);
+    console.log(p);
     $.get( "trivia/screens/empty.html", function( data ) {
       p.dataConnection.send({
         cm: "contentChange",
@@ -12,6 +13,8 @@ async function ans(data) {
     
   }
 }
+
+
 
 
 

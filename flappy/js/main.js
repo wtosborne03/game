@@ -5,6 +5,7 @@ var myGamePiece;
 var myObstacles = [];
 var myScore;
 var gameover;
+stopped = false;
 var myGameArea = {
     canvas : document.getElementById('canvas'),
     start : function() {
@@ -52,17 +53,36 @@ var myGameArea = {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     },
     stop: function(){
+        stopped = true;
         clearInterval(this.interval);
     }
 }
 
 //--------------------------------------------------functions-------------------------------------------------
-function startGame() {
-    myGamePiece = new component(70, 70, "flappy/img/bird1.png", 700, 245, "image");
+function startGame(game) {
+    
     myScore = new component("30px", "Consolas", "black", 1200, 50, "text");
-    myLand = new component(400, 150, "flappy/img/land.png", 0, 650, "land");
-    myBackground = new component(1400, 660, "flappy/img/background.png", 0, 0, "background");
+    myLand = new component(400, 150, "flappy/img/land.png", 0, 840, "land");
+    myBackground = new component(1920, 1080, "flappy/img/background.png", 0, 0, "background");
     gameover = new component(140, 140, "flappy/img/gameover.png", 600, 300, "image");
+
+    game.players.forEach(p => {
+        p.GamePiece = new component(70, 70, "flappy/img/bird1.png", 700, 245, "image");
+        $.get( "trivia/screens/trivia.html", function( data ) {
+          console.log(data);
+          data = data.replace('q0', $('.ans0').text());
+          data =data.replace('q1', $('.ans1').text());
+          data =data.replace('q2', $('.ans2').text());
+          data =data.replace('q3', $('.ans3').text());
+          p.dataConnection.send({
+            cm: "contentChange",
+            content: data
+          });
+          
+        });
+        p.dataConnection.on('data', ans);
+      });
+
     myGameArea.start();
 }
 
@@ -184,8 +204,9 @@ function updateGameArea() {
     var x, y;
     for(i = 0; i < myObstacles.length; i += 1){
         if(myGamePiece.crashWith(myObstacles[i])){
-            gameover.update();
-            myGameArea.stop();
+            //gameover.update();
+            //myGameArea.stop();
+            myGamePiece.
             return;
         }
     }
@@ -247,4 +268,11 @@ function accelerate(n){
 function jump(){
     myGamePiece.gravitySpeed = -2;
 }
+async function execute(game) {
+    startGame(game);
+    while (!stopped) {
+        await sleep(500);
+    }
+    await sleep(2000);
 
+}
