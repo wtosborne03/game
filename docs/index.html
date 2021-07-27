@@ -52,7 +52,11 @@
             $('#name').val(localStorage.getItem('name'));
             $('#code').val(localStorage.getItem('code'));
         }
-        peer = new Peer();
+        peer = new Peer({
+        host: '147.182.216.225',
+        port: 9003,
+        path: '/game'
+      });
         dc = null;
         $('#joinbutton').click(function() {
             if ($('#name').val() == '') {

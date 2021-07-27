@@ -46,7 +46,11 @@ class GameManager {
       this.maxround = 20;
       this.started = false;
       this.name = "greatestgauntlet"
-      this.peer = new Peer(makeid());
+      this.peer = new Peer(makeid(), {
+        host: '147.182.216.225',
+        port: 9003,
+        path: '/game'
+      });
       this.id = this.peer.id;
       console.log(this.id);
       this.players = [];
@@ -89,7 +93,7 @@ class Player {
         this.callbacks = $.Callbacks();
 
         this.dataConnection.on('data', (data) => {
-            this.callbacks.fire(data, p);
+            this.callbacks.fire(data, this);
         });
     }
     setContent(content) {
