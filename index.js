@@ -49,6 +49,7 @@ class GameManager {
       this.peer = new Peer(makeid(), {
         host: '147.182.216.225',
         port: 9003,
+        key: 'john',
         path: '/game'
       });
       this.id = this.peer.id;
