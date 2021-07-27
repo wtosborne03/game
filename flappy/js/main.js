@@ -68,19 +68,16 @@ function startGame(game) {
 
     game.players.forEach(p => {
         p.GamePiece = new component(70, 70, "flappy/img/bird1.png", 700, 245, "image");
-        $.get( "trivia/screens/trivia.html", function( data ) {
+        $.get( "flappy/screens/flap.html", function( data ) {
           console.log(data);
-          data = data.replace('q0', $('.ans0').text());
-          data =data.replace('q1', $('.ans1').text());
-          data =data.replace('q2', $('.ans2').text());
-          data =data.replace('q3', $('.ans3').text());
-          p.dataConnection.send({
-            cm: "contentChange",
-            content: data
-          });
+          p.setContent(data);
           
         });
-        p.dataConnection.on('data', ans);
+        p.addListener((data, p) => {
+            if (data.cm == 'flap') {
+                p.GamePiece.flap();
+            }
+        })
       });
 
     myGameArea.start();
@@ -161,6 +158,15 @@ function component(width, height, color, x, y, type) {
             ctx.fillStyle = color;
             ctx.fillRect(this.x, this.y, this.width, this.height);                    
         }
+    }
+
+    this.flap = function() {
+        this.width = 65;
+            this.height = 65;
+            this.image.src = "flappy/img/bird1.png";
+            jump();
+            this.gravitySpeed = -2;
+            this.gravity = 0.05;
     }
 
 
@@ -261,13 +267,6 @@ function everyinterval(n){//this function returns true if the current framenumbe
     return false;
 }
 
-function accelerate(n){
-    myGamePiece.gravity = n;
-}
-
-function jump(){
-    myGamePiece.gravitySpeed = -2;
-}
 async function execute(game) {
     startGame(game);
     while (!stopped) {

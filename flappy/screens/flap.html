@@ -1,0 +1,21 @@
+<div style="margin: 20px;">
+<h2>Flap</h2>
+<br/>
+<button type="button" class="btn btn-primary" id="0">FLAP</button>
+<br/>
+<script>
+    $('.btn').click(function() {
+        dc.send({
+            cm: 'flap'
+        })
+    });
+</script>
+<style>
+    .btn {
+        width: 92%;
+        height: 92%;
+        margin: 15px auto;
+        font-size: 50px;
+    }
+</style>
+</div>

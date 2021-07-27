@@ -94,9 +94,8 @@
                     name : $('#name').val()
                 });
                 });
-                conn.on('error', function() {
-                    alert('Game Disconnected');
-              location.reload();
+                conn.on('error', function(e) {
+                    console.log(e)
                     });
             }
         });

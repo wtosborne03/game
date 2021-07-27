@@ -1,14 +1,10 @@
-async function ans(data) {
+async function ans(data, p) {
   if (data.cm == 'answer') {
-    p = this;
     p.answer = data.answer;
     answern++;
     console.log(p);
     $.get( "trivia/screens/empty.html", function( data ) {
-      p.dataConnection.send({
-        cm: "contentChange",
-        content: data
-      });
+      p.setContent(data);
     });
     
   }
@@ -62,13 +58,10 @@ async function execute(game) {
         data =data.replace('q1', $('.ans1').text());
         data =data.replace('q2', $('.ans2').text());
         data =data.replace('q3', $('.ans3').text());
-        p.dataConnection.send({
-          cm: "contentChange",
-          content: data
-        });
+        p.setContent(data);
         
       });
-      p.dataConnection.on('data', ans);
+      p.addListener(ans);
     });
     timer(10);
       for (i = 0; i <= 20; i++) {
@@ -81,10 +74,7 @@ async function execute(game) {
     
     game.players.forEach(p => {
       $.get( "trivia/screens/empty.html", function( data ) {
-        p.dataConnection.send({
-          cm: "contentChange",
-          content: data
-        });
+        p.setContent(data);
       });
     });
     music.stop();
@@ -109,13 +99,7 @@ async function execute(game) {
     game.players.forEach(p => {
       if (p.answer != null) {
         if (p.answer == correct) {
-          p.points += 50;
-          p.dataConnection.send({
-            cm: 'headerChange',
-            name: p.name,
-            points: p.points,
-            color: p.color
-          })
+          p.updatePoints(50);
         }
         p.answer = null;
       }
@@ -124,12 +108,9 @@ async function execute(game) {
 
     await sleep(5000);
     game.players.forEach(p => {
-      p.dataConnection.off('data', ans);
+      p.removeListeners();
       $.get( "trivia/screens/empty.html", function( data ) {
-        p.dataConnection.send({
-          cm: "contentChange",
-          content: data
-        });
+        p.setContent(data);
       });
     });
 }

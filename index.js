@@ -85,7 +85,36 @@ class Player {
         this.id = this.dataConnection.peer;
         this.vip = false;
         this.index;
+        this.recentContent;
+        this.callbacks = $.Callbacks();
+
+        this.dataConnection.on('data', (data) => {
+            this.callbacks.fire(data, p);
+        });
     }
+    setContent(content) {
+      this.recentContent = content;
+      this.dataConnection.send({
+        cm: "contentChange",
+        content: content
+      });
+    }
+    addListener(callback) {
+      this.callbacks.add(callback);
+    }
+    removeListeners() {
+      this.callbacks.empty();
+    }
+    updatePoints(value) {
+      this.points += value;
+      this.dataConnection.send({
+        cm: 'headerChange',
+        name: this.name,
+        points: this.points,
+        color: this.color
+      })
+    }
+    
 }
 function timer(time) {
   d3.select(".countdown").transition()
