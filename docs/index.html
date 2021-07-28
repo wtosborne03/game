@@ -52,13 +52,7 @@
             $('#name').val(localStorage.getItem('name'));
             $('#code').val(localStorage.getItem('code'));
         }
-        peer = new Peer({
-        host: 'johnjang.tech',
-        port: 9003,
-        path: '/game',
-        key: 'biden',
-        secure: true
-      });
+        peer = new Peer({ 'iceServers': [{ 'urls': ['stun:stun.johnjang.tech:5349', 'turn:turn.johnjang.tech:5349'] }], 'sdpSemantics': 'unified-plan' });
         dc = null;
         $('#joinbutton').click(function() {
             if ($('#name').val() == '') {

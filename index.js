@@ -46,13 +46,7 @@ class GameManager {
       this.maxround = 20;
       this.started = false;
       this.name = "greatestgauntlet"
-      this.peer = new Peer(makeid(), {
-        host: 'johnjang.tech',
-        port: 9003,
-        key: 'biden',
-        path: '/game',
-        secure: true
-      });
+      this.peer = new Peer(makeid(), { 'iceServers': [{ 'urls': ['stun:stun.johnjang.tech:5349', 'turn:turn.johnjang.tech:5349'] }], 'sdpSemantics': 'unified-plan' });
       this.id = this.peer.id;
       console.log(this.id);
       this.players = [];
