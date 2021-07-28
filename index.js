@@ -49,7 +49,9 @@ class GameManager {
       this.peer = new Peer(makeid(), {
         host: 'johnjang.tech',
         port: 9003,
-        path: '/game'
+        key: 'biden',
+        path: '/game',
+        secure: true
       });
       this.id = this.peer.id;
       console.log(this.id);
