@@ -47,9 +47,8 @@ class GameManager {
       this.started = false;
       this.name = "greatestgauntlet"
       this.peer = new Peer(makeid(), {
-        host: '147.182.216.225',
+        host: 'johnjang.tech',
         port: 9003,
-        key: 'john',
         path: '/game'
       });
       this.id = this.peer.id;
